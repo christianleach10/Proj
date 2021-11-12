@@ -17,10 +17,10 @@ class User(db.Model):
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(140))
-    trail_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
+    trail_id = db.Column(db.Integer, db.ForeignKey('trail.id'))
     rating = db.Column(db.Integer)
-    u2r = db.relationship('UserToReview', backref='review', lazy='dynamic')
-    t2r = db.relationship('TrailToReview', backref='review', lazy='dynamic')
+    u2rs = db.relationship('UserToReview', backref='review', lazy='dynamic')
+    t2rs = db.relationship('TrailToReview', backref='review', lazy='dynamic')
 
 
 class Trail(db.Model):
@@ -29,7 +29,7 @@ class Trail(db.Model):
     distance = db.Column(db.String(64), index=True, unique=True)
     difficulty = db.Column(db.String(64), index=True, unique=True)
     location = db.Column(db.String(64), index=True)
-    t2r = db.relationship('TrailToReview', backref='review', lazy='dynamic')
+    t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')
 
 
 
@@ -42,7 +42,7 @@ class TrailToReview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     trail_id = db.Column(db.Integer, db.ForeignKey('trail.id'))
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'))
-
+"""
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -57,7 +57,7 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
+"""
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
