@@ -7,10 +7,24 @@ from app import app, db
 #    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
 #from app.models import User, Post
 #from app.email import send_password_reset_email
+from app.forms import LoginForm, RegistrationForm
+from app.models import User
 
-@app.route("/")
+@app.route('/')
+@app.route('/index')
 def index():
-    return "Hello Trails App"
+    user = {'username': 'The Holy Trail'}
+    posts = [
+        {
+
+            'body': 'Find a Trail Today!'
+        },
+
+
+
+    ]
+    return render_template('index.html', title='Home', user=user, posts=posts)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

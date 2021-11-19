@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<body>
+
+
+
+<h1><b>{{ user }}</b></h1>
+
+    {% for trail in trails %}
+        <div><a href="{{ url_for('trail', name=trail.name) }}">{{ trail.name }}</a></div>
+    {% endfor %}
+
+
+
+
+
+
+</body>
+
+{% endblock %}
