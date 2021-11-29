@@ -3,14 +3,13 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 
-
 from app import app, db
-#from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
+# from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
 #    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
-#from app.models import User, Post
-#from app.email import send_password_reset_email
+# from app.models import User, Post
+# from app.email import send_password_reset_email
 from app.forms import LoginForm, RegistrationForm
-from app.models import User, Trail
+from app.models import User, Trail, Review
 
 
 @app.route('/')
@@ -22,8 +21,6 @@ def index():
 
             'body': 'Find a Trail Today!'
         },
-
-
 
     ]
     return render_template('index.html', title='Home', user=user, posts=posts)
@@ -67,12 +64,13 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
 @app.route('/trails')
 def trails():
-
     user = 'List of Trails'
-    trails = trails.query.filter().all()
-    return render_template('trails.html',user=user, trails=trails)
+    trails = Trail.query.filter().all()
+    return render_template('trails.html', user=user, trails=trails)
+
 
 @app.route('/reset_db')
 def reset_db():
@@ -84,16 +82,16 @@ def reset_db():
         db.session.execute(table.delete())
     db.session.commit()
 
+
 @app.route('/populate_db')
 def populate_db():
     reset_db()
-    t1 = Trail(name="Robert Treeman", distance="6 Miles", difficulty="Hard", location ="14850" )
-    t2 = Trail(name="Gorge Trail", distance="1.2 Miles", difficulty="Moderate", location ="14850" )
-    t3 = Trail(name="Botanical Gardens", distance="2.5 Miles", difficulty="Easy", location ="14850" )
-    t4 = Trail(name="Taughannock", distance="4 Miles", difficulty="Modereate", location ="14850" )
-    t5 = Trail(name="Buttermilk Falls", distance="3 Miles", difficulty="Easy", location ="14850" )
+    t1 = Trail(name="Robert Treeman", distance="6 Miles", difficulty="Hard", location="14850")
+    t2 = Trail(name="Gorge Trail", distance="1.2 Miles", difficulty="Moderate", location="14850")
+    t3 = Trail(name="Botanical Gardens", distance="2.5 Miles", difficulty="Easy", location="14850")
+    t4 = Trail(name="Taughannock", distance="4 Miles", difficulty="Moderate", location="14850")
+    t5 = Trail(name="Buttermilk Falls", distance="3 Miles", difficulty="Easy", location="14850")
     db.session.add_all([t1, t2, t3, t4, t5])
     db.session.commit()
+
     return render_template('base.html', title='home')
-
-

@@ -5,14 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db, login
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(120), index=True)
-    description = db.Column(db.String(1024), index=True)
-    u2r = db.relationship('UserToReview', backref='user', lazy='dynamic')
-
-
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,11 +18,10 @@ class Review(db.Model):
 class Trail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
-    distance = db.Column(db.String(64), index=True, unique=True)
-    difficulty = db.Column(db.String(64), index=True, unique=True)
+    distance = db.Column(db.String(64), index=True)
+    difficulty = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
-    t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')
-
+    "t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')"
 
 
 class UserToReview(db.Model):
@@ -38,11 +29,13 @@ class UserToReview(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'))
 
+
 class TrailToReview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     trail_id = db.Column(db.Integer, db.ForeignKey('trail.id'))
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'))
-"""
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -57,7 +50,8 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-"""
+
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
