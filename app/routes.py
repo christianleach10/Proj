@@ -10,7 +10,8 @@ from app import app, db
 #from app.models import User, Post
 #from app.email import send_password_reset_email
 from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, Trail
+
 
 @app.route('/')
 @app.route('/index')
@@ -67,8 +68,32 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/trails')
-def artists():
+def trails():
 
     user = 'List of Trails'
     trails = trails.query.filter().all()
     return render_template('trails.html',user=user, trails=trails)
+
+@app.route('/reset_db')
+def reset_db():
+    flash("Resetting database: deleting old data and repopulating with dummy data")
+    # clear all data from all tables
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        print('Clear table {}'.format(table))
+        db.session.execute(table.delete())
+    db.session.commit()
+
+@app.route('/populate_db')
+def populate_db():
+    reset_db()
+    t1 = Trail(name="Robert Treeman", distance="6 Miles", difficulty="Hard", location ="14850" )
+    t2 = Trail(name="Gorge Trail", distance="1.2 Miles", difficulty="Moderate", location ="14850" )
+    t3 = Trail(name="Botanical Gardens", distance="2.5 Miles", difficulty="Easy", location ="14850" )
+    t4 = Trail(name="Taughannock", distance="4 Miles", difficulty="Modereate", location ="14850" )
+    t5 = Trail(name="Buttermilk Falls", distance="3 Miles", difficulty="Easy", location ="14850" )
+    db.session.add_all([t1, t2, t3, t4, t5])
+    db.session.commit()
+    return render_template('base.html', title='home')
+
+
