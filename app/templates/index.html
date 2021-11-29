@@ -3,6 +3,13 @@
 {% block content %}
     <h1> {{ user.username }}!</h1>
     {% for post in posts %}
+<style>
+    .content{
+        max-width: 500px
+        margin: auto;
+    }
+</style>
+<body>
     <div>
         <p><b>{{ post.body }}</b></p>
         <div class="topnav">
@@ -10,5 +17,7 @@
         <input type="text" placeholder="Search..">
         </div>
     </div>
+</body>
+
     {% endfor %}
 {% endblock %}

@@ -2,6 +2,8 @@ from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
+
+
 from app import app, db
 #from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
 #    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
@@ -63,3 +65,10 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/trails')
+def artists():
+
+    user = 'List of Trails'
+    trails = trails.query.filter().all()
+    return render_template('trails.html',user=user, trails=trails)
