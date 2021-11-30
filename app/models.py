@@ -11,7 +11,6 @@ class Review(db.Model):
     userID = db.Column(db.Integer, db.ForeignKey('user.id'))
     rating = db.Column(db.String(16))
     description = db.Column(db.String(256))
-    u2rs = db.relationship('UserToReview', backref='review', lazy='dynamic')
     t2rs = db.relationship('TrailToReview', backref='review', lazy='dynamic')
 
     def __repr__(self):
@@ -42,6 +41,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    reviews = db.relationship('Review', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

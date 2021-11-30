@@ -8,14 +8,20 @@
 <body>
 
 <h1>{{ trail.name }}</h1>
-<h2>{{ trail.difficulty }}</h2>
-{{ trail.distance }}
-{{trail.location}}
-
+<h2> Difficulty: {{ trail.difficulty }}</h2>
+<h2>Distance: {{ trail.distance }}</h2>
+<h2>Location: {{trail.location}}</h2>
+<h2>Reviews:</h2>
 <ul>
-     {% for review in review_list %}
+     {% for t2r in trail.t2rs %}
          <ul>
-            <b>{{ review }}</b>
+
+             <b>{{t2r.review.user.username}}</b>
+             says:
+             <br>
+             <b>{{t2r.review.rating}}</b>
+            <b>{{ t2r.review.description }}</b>
+
 
          </ul>
 

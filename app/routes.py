@@ -118,15 +118,12 @@ def populate_db():
     db.session.add_all([t2r1, t2r2, t2r3, t2r4, t2r5])
     db.session.commit()
 
-
-
     return render_template('base.html', title='home')
+
 
 @app.route('/trailAndReview/<name>')
 def trail(name):
     trail = Trail.query.filter(Trail.name == name).first()
 
-    review_list = []
-    for t2r in trail.t2rs:
-        review_list.append(t2r.review_id)
-    return render_template('trailAndReview.html', trail=trail, review_list=review_list)
+
+    return render_template('trailAndReview.html', trail=trail)
