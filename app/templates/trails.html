@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artists</title>
+</head>
 <body>
 
 
 
 <h1><b>{{ user }}</b></h1>
-
     {% for trail in trails %}
-        <div><a href="{{ url_for('trail', name=trail.name) }}">{{ trail.name }}</a></div>
+        <div><a href="{{ url_for('trail', name=trail.name) }}" >{{ trail.name }}</a></div>
+        <br>
     {% endfor %}
 
 

@@ -8,20 +8,21 @@ from app import db, login
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(140))
-    trail_id = db.Column(db.Integer, db.ForeignKey('trail.id'))
-    rating = db.Column(db.Integer)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    rating = db.Column(db.String(16))
+    description = db.Column(db.String(256))
     u2rs = db.relationship('UserToReview', backref='review', lazy='dynamic')
     t2rs = db.relationship('TrailToReview', backref='review', lazy='dynamic')
 
-
+    def __repr__(self):
+        return '{} was rated {} because {}'.format(self.name, self.rating, self.description)
 class Trail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     distance = db.Column(db.String(64), index=True)
     difficulty = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
-    "t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')"
+    t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')
 
 
 class UserToReview(db.Model):

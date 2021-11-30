@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{%  block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trail Information</title>
+</head>
+<body>
+
+<h1>{{ trail.name }}</h1>
+<h2>{{ trail.difficulty }}</h2>
+{{ trail.distance }}
+{{trail.location}}
+
+<ul>
+     {% for review in review_list %}
+         <ul>
+            <b>{{ review }}</b>
+
+         </ul>
+
+
+     {% endfor %}
+</ul>
+
+
+
+
+</body>
+</html>
+{% endblock %}
