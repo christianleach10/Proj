@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import sqlalchemy
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
@@ -8,7 +10,7 @@ from app import app, db
 #    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
 # from app.models import User, Post
 # from app.email import send_password_reset_email
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, NewReviewForm
 from app.models import User, Trail, Review, TrailToReview, UserToReview
 
 
@@ -124,6 +126,26 @@ def populate_db():
 @app.route('/trailAndReview/<name>')
 def trail(name):
     trail = Trail.query.filter(Trail.name == name).first()
-
-
     return render_template('trailAndReview.html', trail=trail)
+
+@app.route('/newreview', methods=['GET', 'POST'])
+def newreview():
+    form = NewReviewForm()
+    form.trails.choices = [(t.id, t.name) for t in Trail.query.all()]
+    try:
+        if form.validate_on_submit():
+            review = Review(rating=form.rating.data,
+                            description=form.description.data,
+                            userID=current_user.id)
+            db.session.add(review)
+            db.session.commit()
+            for trail_id in form.trails.data:
+                t2r = TrailToReview(trail_id=trail_id, review_id=review.id)
+                db.session.add(t2r)
+            db.session.commit()
+
+            flash('Congratulations, you left a new review!')
+            return redirect(url_for('trails'))
+    except sqlalchemy.exc.IntegrityError:
+        flash("You already reviewed this trail.")
+    return render_template('newreview.html', title='New Review', form=form)
