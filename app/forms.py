@@ -39,3 +39,8 @@ class NewReviewForm(FlaskForm):
     description = StringField('Description:', validators=[DataRequired()])
     submit = SubmitField('Enter review')
 
+class TrailReviewForm(FlaskForm):
+    rating = StringField('Rating:', validators=[DataRequired()])
+    description = StringField('Description:', validators=[DataRequired()])
+    submit = SubmitField('Enter review')
+

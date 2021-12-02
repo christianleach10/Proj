@@ -10,7 +10,7 @@ from app import app, db
 #    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
 # from app.models import User, Post
 # from app.email import send_password_reset_email
-from app.forms import LoginForm, RegistrationForm, NewReviewForm
+from app.forms import LoginForm, RegistrationForm, NewReviewForm, TrailReviewForm
 from app.models import User, Trail, Review, TrailToReview, UserToReview
 
 
@@ -149,3 +149,25 @@ def newreview():
     except sqlalchemy.exc.IntegrityError:
         flash("You already reviewed this trail.")
     return render_template('newreview.html', title='New Review', form=form)
+
+@app.route('/trailreview/<name>', methods=['GET', 'POST'])
+def trailreview(name):
+    trail = Trail.query.filter(Trail.name == name).first()
+    form = TrailReviewForm()
+    try:
+        if form.validate_on_submit():
+            review = Review(rating=form.rating.data,
+                            description=form.description.data,
+                            userID=current_user.id)
+            db.session.add(review)
+            db.session.commit()
+
+            t2r = TrailToReview(trail_id=trail.id, review_id=review.id)
+            db.session.add(t2r)
+            db.session.commit()
+
+            flash('Congratulations, you left a new review!')
+            return redirect(url_for('trails'))
+    except sqlalchemy.exc.IntegrityError:
+        flash("You already reviewed this trail.")
+    return render_template('TrailReviewForm.html', title='New Review', form=form, name=trail.name)
