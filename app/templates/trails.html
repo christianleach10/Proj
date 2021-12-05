@@ -9,7 +9,7 @@
 
 
 
-<h1><b>{{ user }}</b></h1>
+<h1><b>List of Trails!</b></h1>
     {% for trail in trails %}
         <div><a href="{{ url_for('trail', name=trail.name) }}" >{{ trail.name }}</a></div>
         <br>

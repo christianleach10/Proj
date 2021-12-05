@@ -35,12 +35,17 @@ class RegistrationForm(FlaskForm):
 
 class NewReviewForm(FlaskForm):
     trails = SelectField('Trail Name:', choices=[], validators=[DataRequired()])
-    rating = StringField('Rating:', validators=[DataRequired()])
+    rating = SelectField('Rating:', choices=[], validators=[DataRequired()])
     description = StringField('Description:', validators=[DataRequired()])
     submit = SubmitField('Enter review')
 
 class TrailReviewForm(FlaskForm):
-    rating = StringField('Rating:', validators=[DataRequired()])
+    rating = SelectField('Rating:', choices=[], validators=[DataRequired()])
     description = StringField('Description:', validators=[DataRequired()])
     submit = SubmitField('Enter review')
 
+class Search(FlaskForm):
+    trailname = StringField('Trail Name:')
+    difficulty = SelectField('Select Difficulty:', choices=[])
+    length = SelectField('Select Length:', choices=[])
+    submit = SubmitField('Enter search')

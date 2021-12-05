@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1> {{ user.username }}!</h1>
+    <h1> {{ user }}!</h1>
     {% for post in posts %}
 <style>
     .content{
@@ -14,9 +14,36 @@
         <p><b>{{ post.body }}</b></p>
         <div class="topnav">
         <a class="active" href="#home"></a>
-        <input type="text" placeholder="Search..">
         </div>
     </div>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.trailname.label }}<br>
+            {{ form.trailname(rows =20, cols = 128) }}<br>
+            {% for error in form.trailname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.difficulty.label }}<br>
+            {{ form.difficulty(rows =20, cols = 128) }}<br>
+            {% for error in form.difficulty.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+    <p>
+            {{ form.length.label }}<br>
+            {{ form.length(rows =20, cols = 128) }}<br>
+            {% for error in form.length.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+
+
+        <p>{{ form.submit() }}</p>
+    </form>
 </body>
 
     {% endfor %}

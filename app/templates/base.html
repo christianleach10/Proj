@@ -7,6 +7,12 @@
     {% endif %}
 </head>
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='trails.css')}}">
+{% endblock %}
+
 {% block navbar %}
     <nav class="navbar navbar-default">
         <div class="container">
@@ -28,11 +34,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('newreview') }}">Leave a Review!</a></li>
+                    <li><a href="{{ url_for('register')}}">Register</a></li>
                     {% else %}
                     <li><a href="{{ url_for('register', username=current_user.username) }}"></a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     <li><a href="{{ url_for('newreview') }}">Leave a Review!</a></li>
+                    <li><a href="{{ url_for('myreviews') }}">My reviews</a></li>
                     {% endif %}
                 </ul>
             </div>

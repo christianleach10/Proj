@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<h1>My Reviews</h1>
+{% for review in reviews %}
+    <p>{{review}}</p>
+
+{% endfor %}
+
+{% endblock %}

@@ -9,25 +9,23 @@ from app import db, login
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'))
-    rating = db.Column(db.String(16))
+    rating = db.Column(db.Integer)
     description = db.Column(db.String(256))
     t2rs = db.relationship('TrailToReview', backref='review', lazy='dynamic')
 
     def __repr__(self):
-        return '{} was rated {} because {}'.format(self.name, self.rating, self.description)
+        return '{} was rated {} because {}'.format(self.userID, self.rating, self.description)
+
 class Trail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     distance = db.Column(db.String(64), index=True)
     difficulty = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
+    description = db.Column(db.String(64), index=True)
     t2rs = db.relationship('TrailToReview', backref='trail', lazy='dynamic')
 
 
-class UserToReview(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    review_id = db.Column(db.Integer, db.ForeignKey('review.id'))
 
 
 class TrailToReview(db.Model):
