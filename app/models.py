@@ -14,12 +14,12 @@ class Review(db.Model):
     t2rs = db.relationship('TrailToReview', backref='review', lazy='dynamic')
 
     def __repr__(self):
-        return '{} was rated {} because {}'.format(self.userID, self.rating, self.description)
+        return '{} was rated {}/5 because {}'.format(self.userID, self.rating, self.description)
 
 class Trail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
-    distance = db.Column(db.String(64), index=True)
+    distance = db.Column(db.Integer, index=True)
     difficulty = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
     description = db.Column(db.String(64), index=True)

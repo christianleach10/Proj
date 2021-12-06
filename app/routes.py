@@ -26,19 +26,21 @@ def index():
         if form.trailname.data is not None:
             db_query = db_query \
                 .filter(Trail.name.contains(form.trailname.data))
+            #db_query = db_query \
+                #.filter(Trail.description.contains(form.trailname.data))
         if form.difficulty.data is not "":
             db_query = db_query \
                 .filter_by(difficulty=form.difficulty.data)
         if form.length.data is not "":
             if form.length.data == "Short, 1-3":
                 db_query = db_query \
-                    .filter_by(Trail.distance <= 3)
+                    .filter(Trail.distance <= 3)
             if form.length.data == "Moderate, 3-6 miles":
                 db_query = db_query \
-                    .filter_by(Trail.distance <= 6 and Trail.distance > 3)
+                    .filter(6 >= Trail.distance > 3)
             if form.length.data == "Long, 6-10 miles":
                 db_query = db_query \
-                    .filter_by(Trail.distance > 6)
+                    .filter(Trail.distance > 6)
 
 
         trails = db_query.all()
@@ -114,11 +116,11 @@ def reset_db():
 @app.route('/populate_db')
 def populate_db():
     reset_db()
-    t1 = Trail(name="Robert Treeman", distance="6 Miles", difficulty="Hard", location="14850",description="Ready for your next hike or bike ride? Explore one of 2 easy hiking trails in Robert H. Treman State Park that are great for the whole family. Looking for a more strenuous hike? We've got you covered, with trails ranging from 9 to 3,510 feet in elevation gain. Whatever you have planned for the day, you can find the perfect trail for your next trip to Robert H. Treman State Park.")
-    t2 = Trail(name="Ithaca Falls", distance="1.2 Miles", difficulty="Easy", location="14850", description="Ithaca Falls Trail is a 0.2 mile heavily trafficked out and back trail located near Ithaca, New York that features a waterfall and is good for all skill levels. The trail is primarily used for walking and nature trips and is accessible year-round. Dogs are also able to use this trail but must be kept on leash.")
-    t3 = Trail(name="Botanical Gardens", distance="1.1 Miles", difficulty="Easy", location="14850", description="Cascadilla Falls (9 falls) is a 1.1 mile heavily trafficked out and back trail located near Ithaca, New York that features a waterfall and is rated as moderate. The trail is primarily used for hiking, walking, nature trips, and bird watching and is accessible year-round. Dogs are also able to use this trail but must be kept on leash.")
-    t4 = Trail(name="Taughannock", distance="4 Miles", difficulty="Moderate", location="14850", description="Ready for your next hike or bike ride? Explore one of 3 easy hiking trails in Taughannock Falls State Park that are great for the whole family. Looking for a more strenuous hike? We've got you covered, with trails ranging from 82 to 593 feet in elevation gain. Whatever you have planned for the day, you can find the perfect trail for your next trip to Taughannock Falls State Park")
-    t5 = Trail(name="Buttermilk Falls", distance="3 Miles", difficulty="Moderate", location="14850", description="Buttermilk Falls: Gorge and Rim Trail Loop is a 1.6 mile heavily trafficked loop trail located near Ithaca, New York that features a waterfall and is rated as moderate. The trail is primarily used for hiking, walking, camping, and nature trips and is best used from May until September. Dogs are also able to use this trail but must be kept on leash.")
+    t1 = Trail(name="Robert Treeman", distance=6, difficulty="Hard", location="14850",description="Ready for your next hike or bike ride? Explore one of 2 easy hiking trails in Robert H. Treman State Park that are great for the whole family. Looking for a more strenuous hike? We've got you covered, with trails ranging from 9 to 3,510 feet in elevation gain. Whatever you have planned for the day, you can find the perfect trail for your next trip to Robert H. Treman State Park.")
+    t2 = Trail(name="Ithaca Falls", distance=1.2, difficulty="Easy", location="14850", description="Ithaca Falls Trail is a 0.2 mile heavily trafficked out and back trail located near Ithaca, New York that features a waterfall and is good for all skill levels. The trail is primarily used for walking and nature trips and is accessible year-round. Dogs are also able to use this trail but must be kept on leash.")
+    t3 = Trail(name="Cascadilla Falls", distance=1.1, difficulty="Easy", location="14850", description="Cascadilla Falls (9 falls) is a 1.1 mile heavily trafficked out and back trail located near Ithaca, New York that features a waterfall and is rated as moderate. The trail is primarily used for hiking, walking, nature trips, and bird watching and is accessible year-round. Dogs are also able to use this trail but must be kept on leash.")
+    t4 = Trail(name="Taughannock", distance=4, difficulty="Moderate", location="14850", description="Ready for your next hike or bike ride? Explore one of 3 easy hiking trails in Taughannock Falls State Park that are great for the whole family. Looking for a more strenuous hike? We've got you covered, with trails ranging from 82 to 593 feet in elevation gain. Whatever you have planned for the day, you can find the perfect trail for your next trip to Taughannock Falls State Park")
+    t5 = Trail(name="Buttermilk Falls", distance=3, difficulty="Moderate", location="14850", description="Buttermilk Falls: Gorge and Rim Trail Loop is a 1.6 mile heavily trafficked loop trail located near Ithaca, New York that features a waterfall and is rated as moderate. The trail is primarily used for hiking, walking, camping, and nature trips and is best used from May until September. Dogs are also able to use this trail but must be kept on leash.")
     db.session.add_all([t1, t2, t3, t4, t5])
     db.session.commit()
 
