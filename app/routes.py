@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import sqlalchemy
+import sqlalchemy,requests
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
@@ -23,21 +23,21 @@ def index():
     db_query = Trail.query
     if form.validate_on_submit():
 
-        if form.trailname.data is not None:
+        if form.trailname.data != "":
             db_query = db_query \
                 .filter(Trail.name.contains(form.trailname.data))
             #db_query = db_query \
                 #.filter(Trail.description.contains(form.trailname.data))
-        if form.difficulty.data is not "":
+        if form.difficulty.data != "":
             db_query = db_query \
                 .filter_by(difficulty=form.difficulty.data)
-        if form.length.data is not "":
-            if form.length.data == "Short, 1-3":
+        if form.length.data != "":
+            if form.length.data == "Short, 1-3 miles":
                 db_query = db_query \
                     .filter(Trail.distance <= 3)
             if form.length.data == "Moderate, 3-6 miles":
                 db_query = db_query \
-                    .filter(6 >= Trail.distance > 3)
+                    .filter(6 >= Trail.distance).filter(Trail.distance > 3)
             if form.length.data == "Long, 6-10 miles":
                 db_query = db_query \
                     .filter(Trail.distance > 6)
@@ -99,6 +99,10 @@ def register():
 def trails():
     user = "List of Trails!"
     trails = Trail.query.filter().all()
+
+
+
+
     return render_template('trails.html', user=user, trails=trails)
 
 
